@@ -29,15 +29,41 @@ minetest.register_entity("floppy:floppy_red", {
 	textures = {'floppy:floppy_red'},
 	physical = true,
 	on_step = function(self, dtime, collision)
-		local pos = self.object:getpos()
-		local node = minetest.get_node(pos)
-	
-		local rot = self.object:get_rotation()
-		if rot then
-			--rot.x = math.pi/2
-			rot.x = rot.x + 0.2
-			rot.y = rot.y + 0.2
-			self.object:set_rotation(rot)
+		if collision.touching_ground then
+			for _,coll in pairs(collision.collisions) do
+				if coll.type == "node" and coll.axis == "y" then
+					local pos = coll.node_pos
+					pos.y = pos.y + 1
+					minetest.set_node(pos, {name="floppy:floppy_red_lying"})
+					self.object:remove()
+				end
+			end
+		else 
+			local pos = self.object:getpos()
+			local node = minetest.get_node(pos)
+		
+			local rot = self.object:get_rotation()
+			if rot then
+				--rot.x = math.pi/2
+				rot.x = rot.x + 0.2
+				rot.y = rot.y + 0.2
+				self.object:set_rotation(rot)
+			end
 		end
 	end
+})
+
+minetest.register_node("floppy:floppy_red_lying", {
+	description = "Red Floppy (Lying)",
+	tiles = { "floppy_red.png" },
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.4375, 0.4375, -0.4375, 0.4375}
+		}
+	},
+	drop = "floppy:floppy_red",
+	groups = { snappy=3, cracky=3, oddly_breakable_by_hand=3, crumbly=3, not_in_creative_inventory=1 }
 })
