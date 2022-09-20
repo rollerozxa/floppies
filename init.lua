@@ -38,13 +38,12 @@ minetest.register_entity("floppy:floppy_red", {
 					self.object:remove()
 				end
 			end
-		else 
+		else
 			local pos = self.object:getpos()
 			local node = minetest.get_node(pos)
-		
+
 			local rot = self.object:get_rotation()
 			if rot then
-				--rot.x = math.pi/2
 				rot.x = rot.x + 0.2
 				rot.y = rot.y + 0.2
 				self.object:set_rotation(rot)
@@ -67,3 +66,15 @@ minetest.register_node("floppy:floppy_red_lying", {
 	drop = "floppy:floppy_red",
 	groups = { snappy=3, cracky=3, oddly_breakable_by_hand=3, crumbly=3, not_in_creative_inventory=1 }
 })
+
+if minetest.get_modpath("default") then
+	minetest.register_craft({
+		output = "floppy:floppy_red",
+		recipe = {
+			{"wool:red", "default:steel_ingot", "wool:red"},
+			{"wool:red", "wool:red", "wool:red"},
+			{"wool:red", "default:paper", "wool:red"},
+		}
+	})
+end
+
