@@ -54,13 +54,23 @@ minetest.register_entity("floppy:floppy_red", {
 
 minetest.register_node("floppy:floppy_red_lying", {
 	description = "Red Floppy (Lying)",
-	tiles = { "floppy_red.png" },
+	tiles = { "floppy_red.png", "floppy_red.png", "floppy_side.png" },
 	drawtype = "nodebox",
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-0.4375, -0.5, -0.4375, 0.4375, -0.4375, 0.4375}
+			{-0.4375, -0.5, -0.4375, 0.3125, -0.375, 0.3125},
+			{0.375, -0.5, -0.4375, 0.4375, -0.375, 0.1875},
+			{0.3125, -0.5, -0.4375, 0.375, -0.375, 0.25},
+			{-0.4375, -0.5, 0.375, 0.1875, -0.375, 0.4375},
+			{-0.4375, -0.5, 0.3125, 0.25, -0.375, 0.375},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.4375, 0.4375, -0.375, 0.4375}
 		}
 	},
 	drop = "floppy:floppy_red",
