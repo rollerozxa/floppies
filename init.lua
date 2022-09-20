@@ -1,4 +1,3 @@
-
 local colours = {
 	red = 'Red',
 	green = 'Green',
@@ -9,15 +8,14 @@ for colour, colourdesc in pairs(colours) do
 
 local throw = function(itemstack, user, pointed_thing)
 	itemstack:take_item()
-	local pos = user:getpos()
+	local pos = user:get_pos()
 	local dir = user:get_look_dir()
-	local yaw = user:get_look_yaw()
 	if pos and dir then
 		pos.y = pos.y + 1.5
-		local obj = minetest.add_entity(pos, "floppy:floppy_"..colour)
+		local obj = minetest.add_entity(pos, itemstack:get_name())
 		if obj then
-			obj:setvelocity({x=dir.x * 25, y=dir.y * 25, z=dir.z * 25})
-			obj:setacceleration({x=dir.x * -3, y=-25, z=dir.z * -3})
+			obj:set_velocity(vector.multiply(dir, 25))
+			obj:set_acceleration({x=dir.x * -3, y=-25, z=dir.z * -3})
 		end
 	end
 	return itemstack
@@ -43,18 +41,16 @@ minetest.register_entity("floppy:floppy_"..colour, {
 					pos.y = pos.y + 1
 					minetest.set_node(pos, {name="floppy:floppy_"..colour.."_lying"})
 					self.object:remove()
+					break
 				end
 			end
-		else
-			local pos = self.object:getpos()
-			local node = minetest.get_node(pos)
+		end
 
-			local rot = self.object:get_rotation()
-			if rot then
-				rot.x = rot.x + 0.2
-				rot.y = rot.y + 0.2
-				self.object:set_rotation(rot)
-			end
+		local rot = self.object:get_rotation()
+		if rot then
+			rot.x = rot.x + 0.2
+			rot.y = rot.y + 0.2
+			self.object:set_rotation(rot)
 		end
 	end
 })
