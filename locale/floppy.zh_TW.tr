@@ -1,0 +1,6 @@
+# textdomain: floppy
+Red=紅色
+Green=綠色
+Blue=藍色
+@1 Floppy=@1軟盤
+@1 Floppy (Lying)=躺下的@1軟盤
