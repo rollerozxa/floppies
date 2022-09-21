@@ -18,8 +18,7 @@ local throw = function(itemstack, user, pointed_thing)
 		if obj then
 			obj:set_velocity(vector.multiply(dir, 25))
 			obj:set_acceleration({x=dir.x * -3, y=-25, z=dir.z * -3})
-
-			if minetest.is_creative_enabled(user:get_player_name()) then
+			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:take_item()
 			end
 		end
@@ -72,6 +71,7 @@ for colour, colourdesc in pairs(colours) do
 			"floppy_side.png" },
 		drawtype = "nodebox",
 		paramtype = "light",
+		use_texture_alpha = "clip",
 		node_box = {
 			type = "fixed",
 			fixed = {
