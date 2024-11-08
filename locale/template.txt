@@ -4,3 +4,7 @@ Green=
 Blue=
 @1 Floppy=
 @1 Floppy (Lying)=
+
+# content metadata
+Floppies=
+Throwable floppies... That's what they're used for right?=
