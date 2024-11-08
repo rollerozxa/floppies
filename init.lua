@@ -1,4 +1,4 @@
-local S = minetest.get_translator('floppy')
+local S = core.get_translator('floppy')
 
 local colours = {
 	red = S('Red'),
@@ -14,11 +14,11 @@ local throw = function(itemstack, user, pointed_thing)
 	if pos and dir then
 		pos.y = pos.y + 1.5
 
-		local obj = minetest.add_entity(pos, itemname)
+		local obj = core.add_entity(pos, itemname)
 		if obj then
 			obj:set_velocity(vector.multiply(dir, 25))
 			obj:set_acceleration({x=dir.x * -3, y=-25, z=dir.z * -3})
-			if not minetest.is_creative_enabled(user:get_player_name()) then
+			if not core.is_creative_enabled(user:get_player_name()) then
 				itemstack:take_item()
 			end
 		end
@@ -33,7 +33,7 @@ local floppy_step = function(self, dtime, collision)
 				local pos = coll.node_pos
 				pos.y = pos.y + 1
 
-				minetest.set_node(pos, {name=self.textures[1].."_lying"})
+				core.set_node(pos, {name=self.textures[1].."_lying"})
 				self.object:remove()
 				break
 			end
@@ -49,14 +49,14 @@ local floppy_step = function(self, dtime, collision)
 end
 
 for colour, colourdesc in pairs(colours) do
-	minetest.register_craftitem("floppy:floppy_"..colour, {
+	core.register_craftitem("floppy:floppy_"..colour, {
 		description = S("@1 Floppy", colourdesc),
 		inventory_image = "floppy_"..colour..".png",
 		on_place = throw,
 		on_secondary_use = throw
 	})
 
-	minetest.register_entity("floppy:floppy_"..colour, {
+	core.register_entity("floppy:floppy_"..colour, {
 		visual = "item",
 		visual_size = {x=1, y=1, z=1.5},
 		textures = {'floppy:floppy_'..colour},
@@ -64,7 +64,7 @@ for colour, colourdesc in pairs(colours) do
 		on_step = floppy_step
 	})
 
-	minetest.register_node("floppy:floppy_"..colour.."_lying", {
+	core.register_node("floppy:floppy_"..colour.."_lying", {
 		description = S("@1 Floppy (Lying)", colourdesc),
 		tiles = {
 			"floppy_"..colour..".png", "floppy_"..colour..".png^[transformFY",
@@ -92,9 +92,9 @@ for colour, colourdesc in pairs(colours) do
 		groups = { snappy=3, cracky=3, oddly_breakable_by_hand=3, crumbly=3, not_in_creative_inventory=1 }
 	})
 
-	if minetest.get_modpath("default") then
+	if core.get_modpath("default") then
 		local wool = "wool:"..colour
-		minetest.register_craft({
+		core.register_craft({
 			output = "floppy:floppy_"..colour,
 			recipe = {
 				{wool, "default:steel_ingot", wool},
